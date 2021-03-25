@@ -73,7 +73,7 @@ A shopping list builder that helps people make shopping lists from custom recipe
    * [New recipe button] Takes user to the same create new recipe screen
 
 ## Wireframes
-<img src="https://github.com/Recishop/Recishop/blob/main/wireframeInitial.jpg" width=600>
+<img src="https://github.com/Recishop/Recishop/blob/master/wireframeInitial.jpg" width=600>
 
 ### [BONUS] Digital Wireframes & Mockups
 
