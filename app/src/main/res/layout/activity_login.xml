@@ -7,6 +7,17 @@
     android:orientation="vertical"
     tools:context=".LoginActivity">
 
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_weight="2"
+        android:fontFamily="sans-serif-medium"
+        android:text="RECISHOP"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textSize="36sp" />
+
     <EditText
         android:id="@+id/etUsername"
         android:layout_width="match_parent"
