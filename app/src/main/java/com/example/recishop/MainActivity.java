@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 
 import com.example.recishop.fragments.ProfileFragment;
+import com.example.recishop.fragments.ShoppingListFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
@@ -33,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
                         fragment = new ProfileFragment();
                         break;
                     case R.id.action_shopping_list:
-                        fragment = new ProfileFragment();
+                        fragment = new ShoppingListFragment();
                         break;
                     case R.id.action_recipe_list:
                         fragment = new ProfileFragment();
