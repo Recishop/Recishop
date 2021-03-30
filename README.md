@@ -75,6 +75,9 @@ A shopping list builder that helps people make shopping lists from custom recipe
 ## Wireframes
 <img src="https://github.com/Recishop/Recishop/blob/master/wireframeInitial.jpg" width=600>
 
+## Sprint 1 Walkthrough GIF
+<img src="https://github.com/Recishop/Recishop/blob/master/Recishop_Sprint1_Walkthrough.gif" width=300>
+
 ### [BONUS] Digital Wireframes & Mockups
 
 ### [BONUS] Interactive Prototype
