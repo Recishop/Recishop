@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.MenuItem;
 
 import com.example.recishop.fragments.ProfileFragment;
+import com.example.recishop.fragments.RecipeCreationFragment;
 import com.example.recishop.fragments.ShoppingListFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.parse.LogOutCallback;
@@ -42,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
                         fragment = new ShoppingListFragment();
                         break;
                     case R.id.action_recipe_list:
-                        fragment = new ProfileFragment();
+                        fragment = new RecipeCreationFragment();
                         break;
                     default:
                         fragment = new ProfileFragment();
