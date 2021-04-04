@@ -1,5 +1,6 @@
 package com.example.recishop.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -14,11 +15,13 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.recishop.LoginActivity;
 import com.example.recishop.R;
 import com.example.recishop.Recipe;
 import com.example.recishop.RecipesAdapter;
@@ -47,6 +50,7 @@ public class ProfileFragment extends Fragment {
     TextView tvUsername;
     RecyclerView rvUserRecipes;
     ImageView ivProfilePicture;
+    Button btnLogout;
     List<Recipe> recipeList;
     RecipesAdapter recipesAdapter;
 
@@ -70,6 +74,7 @@ public class ProfileFragment extends Fragment {
         tvUsername = view.findViewById(R.id.tvWelcomeMessage);
         ivProfilePicture = view.findViewById(R.id.ivProfilePicture);
         rvUserRecipes = view.findViewById(R.id.rvUserRecipes);
+        btnLogout = view.findViewById(R.id.btnLogout);
 
         ivProfilePicture.setImageResource(R.drawable.ic_baseline_person_24);
         tvUsername.setText(WELCOME_MESSAGE + ParseUser.getCurrentUser().getUsername() + "!");
@@ -80,8 +85,24 @@ public class ProfileFragment extends Fragment {
         rvUserRecipes.setAdapter(recipesAdapter);
         rvUserRecipes.setLayoutManager(new LinearLayoutManager(getContext()));
 
+        // Log user out of application and go to login screen
+        btnLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i(TAG, "onClick log out button");
+                ParseUser.logOutInBackground();
+                ParseUser currentUser = ParseUser.getCurrentUser();
+                goLoginActivity();
+            }
+        });
+
         // TODO: Pull information from current Parse User to populate fields and recipes
         queryRecipes();
+    }
+
+    private void goLoginActivity() {
+        Intent i = new Intent(getContext(), LoginActivity.class);
+        startActivity(i);
     }
 
     protected void queryRecipes() {
