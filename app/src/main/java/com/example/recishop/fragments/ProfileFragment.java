@@ -1,14 +1,6 @@
 package com.example.recishop.fragments;
 
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -20,12 +12,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.recishop.LoginActivity;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.recishop.MainActivity;
 import com.example.recishop.R;
 import com.example.recishop.Recipe;
 import com.example.recishop.RecipesAdapter;
-import com.example.recishop.RecyclerViewClickInterface;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -34,7 +31,7 @@ import com.parse.ParseUser;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProfileFragment extends Fragment implements RecyclerViewClickInterface {
+public class ProfileFragment extends Fragment {
 
     private static final String TAG = ProfileFragment.class.getSimpleName();
     private static final String WELCOME_MESSAGE = "Welcome back, ";
@@ -70,7 +67,7 @@ public class ProfileFragment extends Fragment implements RecyclerViewClickInterf
         tvUsername.setText(WELCOME_MESSAGE + ParseUser.getCurrentUser().getUsername() + "!");
 
         recipeList = new ArrayList<>();
-        recipesAdapter = new RecipesAdapter(recipeList, getContext(), this);
+        recipesAdapter = new RecipesAdapter(recipeList, getContext());
         rvUserRecipes.setAdapter(recipesAdapter);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         rvUserRecipes.setLayoutManager(linearLayoutManager);
@@ -131,14 +128,5 @@ public class ProfileFragment extends Fragment implements RecyclerViewClickInterf
             }
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    // CLICK LISTENER INTERFACE METHODS //
-
-    @Override
-    public void onItemClicked(int position) {
-        // Add in the recyclerview recipe ingredients
-        Recipe recipe = recipesAdapter.getRecipeList().get(position);
-        Toast.makeText(getContext(), String.format("Clicked recipe: [%s]", recipe.getName()), Toast.LENGTH_SHORT).show();
     }
 }

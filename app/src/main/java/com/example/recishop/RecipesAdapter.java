@@ -21,12 +21,10 @@ public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.ViewHold
 
     private Context context;
     private List<Recipe> recipeList;
-    private RecyclerViewClickInterface recyclerViewClickInterface;
 
-    public RecipesAdapter(List<Recipe> recipes, Context context, RecyclerViewClickInterface recyclerViewClickInterface) {
+    public RecipesAdapter(List<Recipe> recipes, Context context) {
         this.recipeList = recipes;
         this.context = context;
-        this.recyclerViewClickInterface = recyclerViewClickInterface;
     }
 
     @NonNull
@@ -64,13 +62,6 @@ public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.ViewHold
 
             tvRecipeName = itemView.findViewById(R.id.tvRecipeName);
             ivRecipeImage = itemView.findViewById(R.id.ivRecipePicture);
-
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    recyclerViewClickInterface.onItemClicked(getAdapterPosition());
-                }
-            });
         }
 
         public void bind(Recipe recipe) {
