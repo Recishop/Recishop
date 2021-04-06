@@ -1,23 +1,18 @@
 package com.example.recishop;
 
+import android.os.Bundle;
+import android.view.MenuItem;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.MenuItem;
-
 import com.example.recishop.fragments.ProfileFragment;
 import com.example.recishop.fragments.RecipeCreationFragment;
 import com.example.recishop.fragments.ShoppingListFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.parse.LogOutCallback;
-import com.parse.ParseException;
-import com.parse.ParseUser;
-
+// test
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
