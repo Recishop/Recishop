@@ -1,6 +1,5 @@
 package com.example.recishop.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -17,9 +16,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,19 +25,16 @@ import com.example.recishop.MainActivity;
 import com.example.recishop.R;
 import com.example.recishop.Recipe;
 import com.example.recishop.RecipesAdapter;
+import com.example.recishop.RecyclerViewClickInterface;
 import com.parse.FindCallback;
-import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
-import org.w3c.dom.Text;
-
-import java.io.DataOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProfileFragment extends Fragment {
+public class ProfileFragment extends Fragment implements RecyclerViewClickInterface {
 
     private static final String TAG = ProfileFragment.class.getSimpleName();
     private static final String WELCOME_MESSAGE = "Welcome back, ";
@@ -76,7 +70,7 @@ public class ProfileFragment extends Fragment {
         tvUsername.setText(WELCOME_MESSAGE + ParseUser.getCurrentUser().getUsername() + "!");
 
         recipeList = new ArrayList<>();
-        recipesAdapter = new RecipesAdapter(recipeList, getContext());
+        recipesAdapter = new RecipesAdapter(recipeList, getContext(), this);
         rvUserRecipes.setAdapter(recipesAdapter);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         rvUserRecipes.setLayoutManager(linearLayoutManager);
@@ -137,5 +131,14 @@ public class ProfileFragment extends Fragment {
             }
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    // CLICK LISTENER INTERFACE METHODS //
+
+    @Override
+    public void onItemClicked(int position) {
+        // Add in the recyclerview recipe ingredients
+        Recipe recipe = recipesAdapter.getRecipeList().get(position);
+        Toast.makeText(getContext(), String.format("Clicked recipe: [%s]", recipe.getName()), Toast.LENGTH_SHORT).show();
     }
 }

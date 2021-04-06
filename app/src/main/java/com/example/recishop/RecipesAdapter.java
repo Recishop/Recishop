@@ -10,6 +10,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.recishop.fragments.ShoppingListFragment;
+
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
@@ -19,10 +21,12 @@ public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.ViewHold
 
     private Context context;
     private List<Recipe> recipeList;
+    private RecyclerViewClickInterface recyclerViewClickInterface;
 
-    public RecipesAdapter(List<Recipe> recipes, Context context) {
+    public RecipesAdapter(List<Recipe> recipes, Context context, RecyclerViewClickInterface recyclerViewClickInterface) {
         this.recipeList = recipes;
         this.context = context;
+        this.recyclerViewClickInterface = recyclerViewClickInterface;
     }
 
     @NonNull
@@ -45,6 +49,10 @@ public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.ViewHold
         return recipeList.size();
     }
 
+    public List<Recipe> getRecipeList() {
+        return recipeList;
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         // Goodies
@@ -56,6 +64,13 @@ public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.ViewHold
 
             tvRecipeName = itemView.findViewById(R.id.tvRecipeName);
             ivRecipeImage = itemView.findViewById(R.id.ivRecipePicture);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    recyclerViewClickInterface.onItemClicked(getAdapterPosition());
+                }
+            });
         }
 
         public void bind(Recipe recipe) {
