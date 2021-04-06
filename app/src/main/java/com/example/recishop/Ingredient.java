@@ -10,6 +10,7 @@ public class Ingredient extends ParseObject {
     public static final String KEY_QUANTITY = "quantity";
     public static final String KEY_RECIPE = "recipe";
     public static final String KEY_MEASUREMENT = "measurement";
+    public static final String KEY_CATEGORY = "category";
 
     public String getItem(){
         return getString(KEY_ITEM);
@@ -19,7 +20,7 @@ public class Ingredient extends ParseObject {
         put(KEY_ITEM, item);
     }
 
-    public Double getQuantity(){
+    public double getQuantity(){
         return getDouble(KEY_QUANTITY);
     }
 
@@ -41,5 +42,13 @@ public class Ingredient extends ParseObject {
 
     public void setMeasurement(String measurement){
         put(KEY_MEASUREMENT, measurement);
+    }
+
+    public String getCategory(){
+        return getString(KEY_CATEGORY);
+    }
+
+    public void setCategory(String category){
+        put(KEY_CATEGORY, category);
     }
 }

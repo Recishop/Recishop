@@ -84,6 +84,7 @@ public class ProfileFragment extends Fragment {
 
         // Specify any kind of filtering
         recipeParseQuery.include(Recipe.KEY_CHEF);
+        recipeParseQuery.whereEqualTo(Recipe.KEY_CHEF, ParseUser.getCurrentUser());
 
         recipeParseQuery.findInBackground(new FindCallback<Recipe>() {
             @Override
