@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.example.recishop.fragments.ProfileFragment;
 import com.example.recishop.fragments.RecipeCreationFragment;
@@ -53,5 +54,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         bottomNavigationView.setSelectedItemId(R.id.action_profile);
+    }
+
+    public void logoutAndBackToLoginScreen() {
+        Intent i = new Intent(this, LoginActivity.class);
+        Toast.makeText(this, "Successfully signed out!", Toast.LENGTH_SHORT).show();
+        ParseUser.logOut();
+        startActivity(i);
+        finish();
     }
 }

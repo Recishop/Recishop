@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.speech.RecognizerIntent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +22,7 @@ import android.widget.Toast;
 import com.example.recishop.EditActivity;
 import com.example.recishop.ItemsAdapter;
 import com.example.recishop.R;
+import com.example.recishop.Recipe;
 
 import org.apache.commons.io.FileUtils;
 
@@ -47,7 +49,6 @@ public class ShoppingListFragment extends Fragment {
     public ShoppingListFragment( ) {
 
     }
-
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -76,21 +77,6 @@ public class ShoppingListFragment extends Fragment {
             }
         };
 
-//        ItemsAdapter.OnClickListener onClickListener = new ItemsAdapter.OnClickListener() {
-//            @Override
-//            public void onItemClicked(int position) {
-//                Log.d("MainActivity", "Single click at position" + position);
-//                // Create the new activity
-//                Intent i = new Intent(ShoppingListFragment.this, EditActivity.class);
-//                // Pass the relevant data
-//                i.putExtra(KEY_ITEM_TEXT, items.get(position));
-//                i.putExtra(KEY_ITEM_POSITION, position);
-//                // Display the activity
-//                startActivityForResult(i, EDIT_TEXT_CODE);
-//            }
-//        };
-
-//        itemsAdapter = new ItemsAdapter(items, onLongClickListener, onClickListener);
         rvItems.setAdapter(itemsAdapter);
         rvItems.setLayoutManager(new LinearLayoutManager(getContext()));
 
@@ -107,6 +93,11 @@ public class ShoppingListFragment extends Fragment {
                 saveItems();
             }
         });
+    }
+
+    public static void addRecipeToShoppingList(Recipe recipe) {
+        // TODO: Implement adding ingredients to shopping list here...
+        // Not sure if static will work since the variables associated with ShoppingListFragment are not static
     }
 
 
