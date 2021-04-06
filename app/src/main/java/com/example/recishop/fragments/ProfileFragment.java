@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -74,11 +75,14 @@ public class ProfileFragment extends Fragment {
         ivProfilePicture.setImageResource(R.drawable.ic_baseline_person_24);
         tvUsername.setText(WELCOME_MESSAGE + ParseUser.getCurrentUser().getUsername() + "!");
 
-        // TODO: Create adapter for recipes
         recipeList = new ArrayList<>();
         recipesAdapter = new RecipesAdapter(recipeList, getContext());
         rvUserRecipes.setAdapter(recipesAdapter);
-        rvUserRecipes.setLayoutManager(new LinearLayoutManager(getContext()));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        rvUserRecipes.setLayoutManager(linearLayoutManager);
+
+        DividerItemDecoration itemDecoration = new DividerItemDecoration(rvUserRecipes.getContext(), linearLayoutManager.getOrientation());
+        rvUserRecipes.addItemDecoration(itemDecoration);
 
         // TODO: Pull information from current Parse User to populate fields and recipes
         queryRecipes();
@@ -126,6 +130,10 @@ public class ProfileFragment extends Fragment {
         switch (item.getItemId()) {
             case R.id.action_menuBtnSignout: {
                 ((MainActivity) getActivity()).logoutAndBackToLoginScreen();
+            }
+            case R.id.action_menuBtnNewRecipe: {
+                Toast.makeText(getContext(), "Create new recipe pressed!", Toast.LENGTH_SHORT).show();
+                // TODO: Implement adding new recipe functionality (modal?)
             }
         }
         return super.onOptionsItemSelected(item);
