@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -22,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.recishop.LoginActivity;
+import com.example.recishop.MainActivity;
 import com.example.recishop.R;
 import com.example.recishop.Recipe;
 import com.example.recishop.RecipesAdapter;
@@ -37,11 +39,6 @@ import java.io.DataOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link ProfileFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class ProfileFragment extends Fragment {
 
     private static final String TAG = ProfileFragment.class.getSimpleName();
@@ -50,7 +47,6 @@ public class ProfileFragment extends Fragment {
     TextView tvUsername;
     RecyclerView rvUserRecipes;
     ImageView ivProfilePicture;
-    Button btnLogout;
     List<Recipe> recipeList;
     RecipesAdapter recipesAdapter;
 
@@ -74,7 +70,6 @@ public class ProfileFragment extends Fragment {
         tvUsername = view.findViewById(R.id.tvWelcomeMessage);
         ivProfilePicture = view.findViewById(R.id.ivProfilePicture);
         rvUserRecipes = view.findViewById(R.id.rvUserRecipes);
-        btnLogout = view.findViewById(R.id.btnLogout);
 
         ivProfilePicture.setImageResource(R.drawable.ic_baseline_person_24);
         tvUsername.setText(WELCOME_MESSAGE + ParseUser.getCurrentUser().getUsername() + "!");
@@ -85,24 +80,8 @@ public class ProfileFragment extends Fragment {
         rvUserRecipes.setAdapter(recipesAdapter);
         rvUserRecipes.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        // Log user out of application and go to login screen
-        btnLogout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.i(TAG, "onClick log out button");
-                ParseUser.logOutInBackground();
-                ParseUser currentUser = ParseUser.getCurrentUser();
-                goLoginActivity();
-            }
-        });
-
         // TODO: Pull information from current Parse User to populate fields and recipes
         queryRecipes();
-    }
-
-    private void goLoginActivity() {
-        Intent i = new Intent(getContext(), LoginActivity.class);
-        startActivity(i);
     }
 
     protected void queryRecipes() {
@@ -137,4 +116,18 @@ public class ProfileFragment extends Fragment {
         setHasOptionsMenu(true);
     }
 
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_profile_fragment_menu, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_menuBtnSignout: {
+                ((MainActivity) getActivity()).logoutAndBackToLoginScreen();
+            }
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }
