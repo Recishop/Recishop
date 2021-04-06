@@ -2,6 +2,7 @@ package com.example.recishop.fragments;
 
 
 import android.os.Bundle;
+import android.speech.RecognizerIntent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.recishop.ItemsAdapter;
 import com.example.recishop.R;
+import com.example.recishop.Recipe;
 
 import org.apache.commons.io.FileUtils;
 
@@ -45,6 +47,7 @@ public class ShoppingListFragment extends Fragment {
     public ShoppingListFragment( ) {
 
     }
+
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -91,6 +94,11 @@ public class ShoppingListFragment extends Fragment {
                 saveItems();
             }
         });
+    }
+
+    public static void addRecipeToShoppingList(Recipe recipe) {
+        // TODO: Implement adding ingredients to shopping list here...
+        // Not sure if static will work since the variables associated with ShoppingListFragment are not static
     }
 
 

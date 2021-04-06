@@ -10,6 +10,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.recishop.fragments.ShoppingListFragment;
+
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
@@ -43,6 +45,10 @@ public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.ViewHold
     @Override
     public int getItemCount() {
         return recipeList.size();
+    }
+
+    public List<Recipe> getRecipeList() {
+        return recipeList;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

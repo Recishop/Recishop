@@ -1,7 +1,9 @@
 package com.example.recishop;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,7 +14,8 @@ import com.example.recishop.fragments.ProfileFragment;
 import com.example.recishop.fragments.RecipeCreationFragment;
 import com.example.recishop.fragments.ShoppingListFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-// test
+import com.parse.ParseUser;
+
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -48,5 +51,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         bottomNavigationView.setSelectedItemId(R.id.action_profile);
+    }
+
+    public void logoutAndBackToLoginScreen() {
+        Intent i = new Intent(this, LoginActivity.class);
+        Toast.makeText(this, "Successfully signed out!", Toast.LENGTH_SHORT).show();
+        ParseUser.logOut();
+        startActivity(i);
+        finish();
     }
 }
