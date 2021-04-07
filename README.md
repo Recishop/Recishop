@@ -26,20 +26,20 @@ A shopping list builder that helps people make shopping lists from custom recipe
 
 **Required Must-have Stories**
 
-* Users should be able to create their own recipes and save them to a database
-* Users should be able to see a list of their own created recipes
-* Users should be able to view and check off items from a generated shopping list based on what recipes they have added
-* Users should be able to access recipe list of other users
-* Users should be able to form "Groups" with other users where they can share a shopping list and share their saved recipes with one another
-* Users should be able to collaboratively add and check items off of shared shoping list 
-* Maps feature to locate nearby grocery stores
+* [x] Users should be able to create their own recipes and save them to a database
+* [x] Users should be able to see a list of their own created recipes
+* [ ] Users should be able to view and check off items from a generated shopping list based on what recipes they have added
+* [ ] Users should be able to access recipe list of other users
+* [ ] Users should be able to form "Groups" with other users where they can share a shopping list and share their saved recipes with one another
+* [ ] Users should be able to collaboratively add and check items off of shared shoping list 
+* [ ] Maps feature to locate nearby grocery stores
 
 
 **Optional Nice-to-have Stories**
 
-* App estimates the total price of the shopping list
-* The ability to add custom/random items to a generated shopping list (i.e toilet paper, deodorant, etc.)
-* Users being able to view the profile pages of other users to see their saved recipes
+* [ ] App estimates the total price of the shopping list
+* [ ] The ability to add custom/random items to a generated shopping list (i.e toilet paper, deodorant, etc.)
+* [ ] Users being able to view the profile pages of other users to see their saved recipes
 
 ### 2. Screen Archetypes
 
@@ -77,6 +77,17 @@ A shopping list builder that helps people make shopping lists from custom recipe
 
 ## Sprint 1 Walkthrough GIF
 <img src="https://github.com/Recishop/Recishop/blob/master/Recishop_Sprint1_Walkthrough.gif" width=300>
+
+## Sprint 2 Walkthrough GIFS
+
+Creating a new recipe!
+
+<img src="https://github.com/Recishop/Recishop/blob/master/Recishop_Sprint2_CreateRecipe.gif" width=300>
+
+Adding ingredients to the shopping list!
+
+<img src="https://github.com/Recishop/Recishop/blob/master/Recishop_Sprint2_AddIngredientsToShoppingList.gif" width=300>
+
 
 ### [BONUS] Digital Wireframes & Mockups
 
