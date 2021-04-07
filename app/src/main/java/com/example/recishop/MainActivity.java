@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.recishop.fragments.ProfileFragment;
 import com.example.recishop.fragments.RecipeCreationFragment;
@@ -16,11 +17,15 @@ import com.example.recishop.fragments.ShoppingListFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.parse.ParseUser;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
     final FragmentManager fragmentManager = getSupportFragmentManager();
     BottomNavigationView bottomNavigationView;
+    private List<String> shoppingList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +56,27 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         bottomNavigationView.setSelectedItemId(R.id.action_profile);
+    }
+
+    public void goToCreateRecipe() {
+        Fragment fragment = new RecipeCreationFragment();
+        fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
+    }
+
+    public List<String> getShoppingList() {
+        return shoppingList;
+    }
+
+    public void addToShoppingList(List<Ingredient> items) {
+        List<String> temp = new ArrayList<>();
+        for (int i = 0; i < items.size(); i++) {
+            temp.add(items.get(i).getItem());
+        }
+        shoppingList.addAll(temp);
+    }
+
+    public void clearShoppingList() {
+        shoppingList.clear();
     }
 
     public void logoutAndBackToLoginScreen() {

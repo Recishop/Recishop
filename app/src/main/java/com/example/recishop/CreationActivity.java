@@ -1,10 +1,7 @@
 package com.example.recishop;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.nfc.Tag;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -12,21 +9,16 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
-import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.SaveCallback;
-
-import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -184,8 +176,9 @@ public class CreationActivity extends AppCompatActivity{
             public void done(ParseException e) {
                 if(e!=null){
                     Log.e(TAG, "error while saving ingredient");
+                } else {
+                    Log.i(TAG, "Ingredient save was successful");
                 }
-                Log.i(TAG, "Ingredient save was successful");
                 etIngrName.setText("");
                 etMeasurement.setText("");
                 etQuantity.setText("");

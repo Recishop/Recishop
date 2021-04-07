@@ -1,10 +1,12 @@
 package com.example.recishop;
 
+import android.animation.RectEvaluator;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -21,10 +23,16 @@ public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.ViewHold
 
     private Context context;
     private List<Recipe> recipeList;
+    private RecyclerViewListener recyclerViewListener;
 
     public RecipesAdapter(List<Recipe> recipes, Context context) {
         this.recipeList = recipes;
         this.context = context;
+        this.recyclerViewListener = recyclerViewListener;
+    }
+
+    public void setRecyclerViewListener(RecyclerViewListener recyclerViewListener) {
+        this.recyclerViewListener = recyclerViewListener;
     }
 
     @NonNull
@@ -62,6 +70,17 @@ public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.ViewHold
 
             tvRecipeName = itemView.findViewById(R.id.tvRecipeName);
             ivRecipeImage = itemView.findViewById(R.id.ivRecipePicture);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (recyclerViewListener != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            recyclerViewListener.onItemClick(position);
+                        }
+                    }
+                }
+            });
         }
 
         public void bind(Recipe recipe) {

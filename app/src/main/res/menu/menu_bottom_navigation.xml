@@ -17,7 +17,7 @@
     <item
         android:id="@+id/action_recipe_list"
         android:icon="@drawable/ic_baseline_format_list_bulleted_24"
-        android:title="Recipes"
+        android:title="Create"
         app:showAsAction="always" />
 
 </menu>

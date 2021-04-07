@@ -19,10 +19,13 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.recishop.CreationActivity;
+import com.example.recishop.Ingredient;
 import com.example.recishop.MainActivity;
 import com.example.recishop.R;
 import com.example.recishop.Recipe;
 import com.example.recishop.RecipesAdapter;
+import com.example.recishop.RecyclerViewListener;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -68,6 +71,14 @@ public class ProfileFragment extends Fragment {
 
         recipeList = new ArrayList<>();
         recipesAdapter = new RecipesAdapter(recipeList, getContext());
+        recipesAdapter.setRecyclerViewListener(new RecyclerViewListener() {
+            @Override
+            public void onItemClick(int position) {
+                Recipe recipe = recipeList.get(position);
+                addIngredientsToShoppingList(recipe);
+                Toast.makeText(getContext(), String.format("Added [%s] ingredients to list!", recipe.getName()), Toast.LENGTH_SHORT).show();
+            }
+        });
         rvUserRecipes.setAdapter(recipesAdapter);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         rvUserRecipes.setLayoutManager(linearLayoutManager);
@@ -125,9 +136,31 @@ public class ProfileFragment extends Fragment {
             }
             case R.id.action_menuBtnNewRecipe: {
                 Toast.makeText(getContext(), "Create new recipe pressed!", Toast.LENGTH_SHORT).show();
-                // TODO: Implement adding new recipe functionality (modal?)
+                ((MainActivity)getActivity()).goToCreateRecipe();
             }
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void addIngredientsToShoppingList(Recipe recipe) {
+        Log.i(TAG, "ingredient query called");
+        ParseQuery<Ingredient> ingredientParseQuery = ParseQuery.getQuery(Ingredient.class);
+
+        // Specify any kind of filtering
+        ingredientParseQuery.include(Ingredient.KEY_RECIPE);
+        ingredientParseQuery.whereEqualTo(Ingredient.KEY_RECIPE, recipe);
+
+        ingredientParseQuery.findInBackground(new FindCallback<Ingredient>() {
+            @Override
+            public void done(List<Ingredient> objects, ParseException e) {
+                if (e == null) {
+                    ((MainActivity)getActivity()).addToShoppingList(objects);
+                } else {
+                    Toast.makeText(getContext(), "Failed to add ingredients!", Toast.LENGTH_SHORT).show();
+                    Log.e(TAG, "Recipe query error: " + e);
+                    return;
+                }
+            }
+        });
     }
 }

@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.recishop.ItemsAdapter;
+import com.example.recishop.MainActivity;
 import com.example.recishop.R;
 import com.example.recishop.Recipe;
 
@@ -61,6 +62,7 @@ public class ShoppingListFragment extends Fragment {
         btnAdd = view.findViewById(R.id.btnAdd);
         etItem = view.findViewById(R.id.etItem);
         rvItems = view.findViewById(R.id.rvItems);
+        // rvItems = view.findViewById(R.id.rvItems);
 
         loadItems();
 
@@ -77,7 +79,7 @@ public class ShoppingListFragment extends Fragment {
         };
 
 
-        itemsAdapter = new ItemsAdapter(items, onLongClickListener, onClickListener);
+        itemsAdapter = new ItemsAdapter(((MainActivity)getActivity()).getShoppingList(), onLongClickListener, onClickListener);
         rvItems.setAdapter(itemsAdapter);
         rvItems.setLayoutManager(new LinearLayoutManager(getContext()));
 
