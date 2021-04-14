@@ -70,8 +70,8 @@ public class ShoppingListFragment extends Fragment {
             @Override
             public void onItemLongClicked(int position) {
                 // Delete the item from the model
-                (MainActivity)getActivity().removeItemFromShoppingList(position);
                 itemsList.remove(position);
+                ((MainActivity) getActivity()).removeItemFromShoppingList(position);
                 // Notify the adapter
                 itemsAdapter.notifyItemRemoved(position);
                 Toast.makeText(getContext(), "Item was removed", Toast.LENGTH_SHORT).show();
