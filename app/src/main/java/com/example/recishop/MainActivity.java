@@ -1,7 +1,9 @@
 package com.example.recishop;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -18,6 +20,12 @@ import com.example.recishop.fragments.ShoppingListFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.parse.ParseUser;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
     final FragmentManager fragmentManager = getSupportFragmentManager();
     BottomNavigationView bottomNavigationView;
+    public static final String SHOPPING_LIST_FILE = "SHOPPING_LIST.txt";
     private List<String> shoppingList = new ArrayList<>();
 
     @Override
@@ -77,6 +86,57 @@ public class MainActivity extends AppCompatActivity {
             temp.add(items.get(i).getItem());
         }
         shoppingList.addAll(temp);
+        writeShoppingListToFile();
+    }
+
+    public void addToShoppingList(String item) {
+        shoppingList.add(item);
+        writeShoppingListToFile();
+    }
+
+    public void writeShoppingListToFile() {
+        try {
+            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(this.openFileOutput(SHOPPING_LIST_FILE, Context.MODE_PRIVATE));
+            for (String item : shoppingList) {
+                Log.d(TAG, String.format("Writing item: [%s]", item));
+                outputStreamWriter.write(item);
+                outputStreamWriter.write("\n");
+            }
+            outputStreamWriter.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void loadShoppingList() {
+        Log.i(TAG, "Attempting to load shopping list from file");
+        List<String> loadedItems = new ArrayList<String>();
+
+        try {
+            InputStream inputStream = this.openFileInput(SHOPPING_LIST_FILE);
+
+            if (inputStream != null) {
+                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+                String receivedString = "";
+
+                while ( (receivedString = bufferedReader.readLine()) != null) {
+                    Log.d(TAG, String.format("Loaded item: %s", receivedString));
+                    loadedItems.add(receivedString);
+                }
+                inputStream.close();
+            }
+        } catch (FileNotFoundException e) {
+            Log.e(TAG, "Shopping list file not found: ", e);
+        } catch (IOException e) {
+            Log.e(TAG, "IOException: ", e);
+        } finally {
+            Log.d(TAG, "Returning list with contents: " + loadedItems);
+            clearShoppingList();
+            shoppingList = loadedItems;
+        }
     }
 
     public void clearShoppingList() {
@@ -89,5 +149,10 @@ public class MainActivity extends AppCompatActivity {
         ParseUser.logOut();
         startActivity(i);
         finish();
+    }
+
+    public void removeItemFromShoppingList(int position) {
+        shoppingList.remove(position);
+        writeShoppingListToFile();
     }
 }
