@@ -28,15 +28,14 @@ A shopping list builder that helps people make shopping lists from custom recipe
 
 * [x] Users should be able to create their own recipes and save them to a database
 * [x] Users should be able to see a list of their own created recipes
-* [ ] Users should be able to view and check off items from a generated shopping list based on what recipes they have added
-* [ ] Users should be able to access recipe list of other users
-* [ ] Users should be able to form "Groups" with other users where they can share a shopping list and share their saved recipes with one another
+* [x] Users should be able to view and check off items from a generated shopping list based on what recipes they have added
 * [ ] Users should be able to collaboratively add and check items off of shared shoping list 
 * [ ] Maps feature to locate nearby grocery stores
 
 
 **Optional Nice-to-have Stories**
-
+* [ ] Users should be able to access recipe list of other users
+* [ ] Users should be able to form "Groups" with other users where they can share a shopping list and share their saved recipes with one another
 * [ ] App estimates the total price of the shopping list
 * [ ] The ability to add custom/random items to a generated shopping list (i.e toilet paper, deodorant, etc.)
 * [ ] Users being able to view the profile pages of other users to see their saved recipes
@@ -88,6 +87,11 @@ Adding ingredients to the shopping list!
 
 <img src="https://github.com/Recishop/Recishop/blob/master/Recishop_Sprint2_AddIngredientsToShoppingList.gif" width=300>
 
+## Sprint 3 Walkthrough GIFS
+
+Adding ingredients based off of recipes and starting the map feature!
+
+<img src="https://i.imgur.com/AzQPVl2.gif" width=300>
 
 ### [BONUS] Digital Wireframes & Mockups
 
