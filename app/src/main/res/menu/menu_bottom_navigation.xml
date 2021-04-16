@@ -4,12 +4,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/action_map"
-        android:icon="@android:drawable/ic_dialog_map"
-        android:iconTint="#8C000000"
-        android:title="Map"
-        app:showAsAction="always" />
-    <item
         android:id="@+id/action_profile"
         android:icon="@drawable/ic_baseline_person_24"
         android:title="Home"
@@ -18,13 +12,20 @@
     <item
         android:id="@+id/action_shopping_list"
         android:icon="@drawable/ic_baseline_shopping_cart_24"
-        android:title="Shopping List"
+        android:title="List"
         app:showAsAction="always" />
+
     <item
         android:id="@+id/action_recipe_list"
-        android:icon="@drawable/ic_baseline_format_list_bulleted_24"
+        android:icon="@drawable/ic_baseline_create_24"
         android:title="Create"
         app:showAsAction="always" />
 
+    <item
+        android:id="@+id/action_map"
+        android:icon="@android:drawable/ic_dialog_map"
+        android:iconTint="#8C000000"
+        android:title="Map"
+        app:showAsAction="always" />
 
 </menu>
