@@ -8,6 +8,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 // Responsible for displaying data from the model into a row in the recycler view
@@ -21,7 +22,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
         void onItemLongClicked(int position);
     }
 
-    List<String> items;
+    List<String> items = new ArrayList<>();
     OnLongClickListener longClickListener;
     OnClickListener clickListener;
 

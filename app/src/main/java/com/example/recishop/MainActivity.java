@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
 
@@ -38,7 +39,6 @@ public class MainActivity extends AppCompatActivity {
     final FragmentManager fragmentManager = getSupportFragmentManager();
     BottomNavigationView bottomNavigationView;
     public static final String SHOPPING_LIST_FILE = "SHOPPING_LIST.txt";
-    private List<String> shoppingList = new ArrayList<>();
 
     // Create viewModel
     public UserViewModel userViewModel;
@@ -49,6 +49,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
+        userViewModel.getShoppingList().observe(this, new Observer<List<String>>() {
+            @Override
+            public void onChanged(List<String> strings) {
+                // Any time the list is changed, save it to backend or disk
+                writeShoppingListToFile();
+            }
+        });
 
         // Navigation bar initialization
         bottomNavigationView = findViewById(R.id.bottomNavigation);
@@ -77,6 +84,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         bottomNavigationView.setSelectedItemId(R.id.action_profile);
+
+        loadShoppingList();
     }
 
     public void goToCreateRecipe() {
@@ -84,28 +93,11 @@ public class MainActivity extends AppCompatActivity {
         fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
     }
 
-    public List<String> getShoppingList() {
-        return shoppingList;
-    }
-
-    public void addToShoppingList(List<Ingredient> items) {
-        List<String> temp = new ArrayList<>();
-        for (int i = 0; i < items.size(); i++) {
-            temp.add(items.get(i).getItem());
-        }
-        shoppingList.addAll(temp);
-        writeShoppingListToFile();
-    }
-
-    public void addToShoppingList(String item) {
-        shoppingList.add(item);
-        writeShoppingListToFile();
-    }
-
     public void writeShoppingListToFile() {
         try {
             OutputStreamWriter outputStreamWriter = new OutputStreamWriter(this.openFileOutput(SHOPPING_LIST_FILE, Context.MODE_PRIVATE));
-            for (String item : shoppingList) {
+            List<String> temp = (userViewModel.getShoppingList().getValue() == null) ? new ArrayList<>() : userViewModel.getShoppingList().getValue();
+            for (String item : temp) {
                 Log.d(TAG, String.format("Writing item: [%s]", item));
                 outputStreamWriter.write(item);
                 outputStreamWriter.write("\n");
@@ -120,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void loadShoppingList() {
         Log.i(TAG, "Attempting to load shopping list from file");
-        List<String> loadedItems = new ArrayList<String>();
+        List<String> loadedItems = new ArrayList<>();
 
         try {
             InputStream inputStream = this.openFileInput(SHOPPING_LIST_FILE);
@@ -142,13 +134,8 @@ public class MainActivity extends AppCompatActivity {
             Log.e(TAG, "IOException: ", e);
         } finally {
             Log.d(TAG, "Returning list with contents: " + loadedItems);
-            clearShoppingList();
-            shoppingList = loadedItems;
+            userViewModel.setShoppingList(loadedItems);
         }
-    }
-
-    public void clearShoppingList() {
-        shoppingList.clear();
     }
 
     public void logoutAndBackToLoginScreen() {
@@ -157,10 +144,5 @@ public class MainActivity extends AppCompatActivity {
         ParseUser.logOut();
         startActivity(i);
         finish();
-    }
-
-    public void removeItemFromShoppingList(int position) {
-        shoppingList.remove(position);
-        writeShoppingListToFile();
     }
 }

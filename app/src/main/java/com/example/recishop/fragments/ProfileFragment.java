@@ -15,6 +15,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -25,6 +26,7 @@ import com.example.recishop.R;
 import com.example.recishop.models.Recipe;
 import com.example.recishop.RecipesAdapter;
 import com.example.recishop.RecyclerViewListener;
+import com.example.recishop.models.UserViewModel;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -37,6 +39,8 @@ public class ProfileFragment extends Fragment {
 
     private static final String TAG = ProfileFragment.class.getSimpleName();
     private static final String WELCOME_MESSAGE = "Welcome back, ";
+
+    private UserViewModel userViewModel;
 
     TextView tvUsername;
     RecyclerView rvUserRecipes;
@@ -61,6 +65,8 @@ public class ProfileFragment extends Fragment {
 
         Log.i(TAG, "Current User: " + ParseUser.getCurrentUser().getUsername());
 
+        userViewModel = new ViewModelProvider(requireActivity()).get(UserViewModel.class);
+
         tvUsername = view.findViewById(R.id.tvWelcomeMessage);
         ivProfilePicture = view.findViewById(R.id.ivProfilePicture);
         rvUserRecipes = view.findViewById(R.id.rvUserRecipes);
@@ -74,8 +80,8 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onItemClick(int position) {
                 Recipe recipe = recipeList.get(position);
-                addIngredientsToShoppingList(recipe);
-                Toast.makeText(getContext(), String.format("Added [%s] ingredients to list!", recipe.getName()), Toast.LENGTH_SHORT).show();
+                userViewModel.addRecipeIngredientsToShoppingList(recipe);
+                Toast.makeText(getContext(), String.format("Added %s ingredients to list!", recipe.getName()), Toast.LENGTH_SHORT).show();
             }
         });
         rvUserRecipes.setAdapter(recipesAdapter);
@@ -85,7 +91,6 @@ public class ProfileFragment extends Fragment {
         DividerItemDecoration itemDecoration = new DividerItemDecoration(rvUserRecipes.getContext(), linearLayoutManager.getOrientation());
         rvUserRecipes.addItemDecoration(itemDecoration);
 
-        // TODO: Pull information from current Parse User to populate fields and recipes
         queryRecipes();
     }
 
@@ -103,7 +108,6 @@ public class ProfileFragment extends Fragment {
                     recipeList.clear();
                     recipeList.addAll(objects);
                     recipesAdapter.notifyDataSetChanged();
-                    Toast.makeText(getContext(), "Successfully pulled recipes!", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(getContext(), "UNSUCCESSFULLY DID NOT PULL recipes!", Toast.LENGTH_SHORT).show();
                     Log.e(TAG, "Recipe query error: " + e);
@@ -111,7 +115,6 @@ public class ProfileFragment extends Fragment {
                 }
             }
         });
-
     }
 
     // FOR CUSTOM ACTION BAR ACTIONS FOR FRAGMENT //
@@ -134,32 +137,10 @@ public class ProfileFragment extends Fragment {
                 ((MainActivity) getActivity()).logoutAndBackToLoginScreen();
             }
             case R.id.action_menuBtnNewRecipe: {
-                Toast.makeText(getContext(), "Create new recipe pressed!", Toast.LENGTH_SHORT).show();
+                // Toast.makeText(getContext(), "Create new recipe pressed!", Toast.LENGTH_SHORT).show();
                 ((MainActivity)getActivity()).goToCreateRecipe();
             }
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    private void addIngredientsToShoppingList(Recipe recipe) {
-        Log.i(TAG, "ingredient query called");
-        ParseQuery<Ingredient> ingredientParseQuery = ParseQuery.getQuery(Ingredient.class);
-
-        // Specify any kind of filtering
-        ingredientParseQuery.include(Ingredient.KEY_RECIPE);
-        ingredientParseQuery.whereEqualTo(Ingredient.KEY_RECIPE, recipe);
-
-        ingredientParseQuery.findInBackground(new FindCallback<Ingredient>() {
-            @Override
-            public void done(List<Ingredient> objects, ParseException e) {
-                if (e == null) {
-                    ((MainActivity)getActivity()).addToShoppingList(objects);
-                } else {
-                    Toast.makeText(getContext(), "Failed to add ingredients!", Toast.LENGTH_SHORT).show();
-                    Log.e(TAG, "Recipe query error: " + e);
-                    return;
-                }
-            }
-        });
     }
 }

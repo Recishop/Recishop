@@ -14,6 +14,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,6 +23,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.recishop.ItemsAdapter;
 import com.example.recishop.MainActivity;
 import com.example.recishop.R;
+import com.example.recishop.models.Ingredient;
+import com.example.recishop.models.UserViewModel;
 
 import org.apache.commons.io.FileUtils;
 
@@ -53,6 +57,8 @@ public class ShoppingListFragment extends Fragment {
     ItemsAdapter itemsAdapter;
     private ItemsAdapter.OnClickListener onClickListener;
 
+    UserViewModel userViewModel;
+
     public ShoppingListFragment( ) {
         // Empty constructor for fragment requirements
     }
@@ -69,51 +75,48 @@ public class ShoppingListFragment extends Fragment {
         ItemsAdapter.OnLongClickListener onLongClickListener = new ItemsAdapter.OnLongClickListener() {
             @Override
             public void onItemLongClicked(int position) {
-                // Delete the item from the model
-                itemsList.remove(position);
-                ((MainActivity) getActivity()).removeItemFromShoppingList(position);
-                // Notify the adapter
-                itemsAdapter.notifyItemRemoved(position);
-                Toast.makeText(getContext(), "Item was removed", Toast.LENGTH_SHORT).show();
+                Log.i(TAG, "Long press on item: " + userViewModel.getShoppingList().getValue().get(position));
+
+                // Remove from view Model
+                Toast.makeText(getContext(), String.format("%s was removed", userViewModel.getShoppingList().getValue().get(position)), Toast.LENGTH_SHORT).show();
+                userViewModel.removeItemFromShoppingList(position);
             }
         };
+
+        // View Model
+        userViewModel = new ViewModelProvider(requireActivity()).get(UserViewModel.class);
+        userViewModel.getShoppingList().observe(getViewLifecycleOwner(), new Observer<List<String>>() {
+            @Override
+            public void onChanged(List<String> ingredients) {
+                Log.i(TAG, "Shopping list was updated to: " + Arrays.toString(ingredients.toArray()));
+                itemsAdapter = new ItemsAdapter(ingredients, onLongClickListener, onClickListener);
+                rvShoppingItems.setAdapter(itemsAdapter);
+            }
+        });
 
         // Variable Assignment //
         btnAdd = view.findViewById(R.id.btnAdd);
         etItem = view.findViewById(R.id.etItem);
         rvShoppingItems = view.findViewById(R.id.rvItems);
 
-        itemsAdapter = new ItemsAdapter(itemsList, onLongClickListener, onClickListener);
-        rvShoppingItems.setAdapter(itemsAdapter);
+        //itemsAdapter = new ItemsAdapter(userViewModel.getShoppingList().getValue(), onLongClickListener, onClickListener);
+        //rvShoppingItems.setAdapter(itemsAdapter);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         rvShoppingItems.setLayoutManager(linearLayoutManager);
 
         DividerItemDecoration itemDecoration = new DividerItemDecoration(rvShoppingItems.getContext(), linearLayoutManager.getOrientation());
         rvShoppingItems.addItemDecoration(itemDecoration);
 
-        ((MainActivity) getActivity()).loadShoppingList();
-        Log.i(TAG, String.format("Main shopping list contents: %s", ((MainActivity) getActivity()).getShoppingList()));
-        patchList(((MainActivity) getActivity()).getShoppingList());
-        itemsAdapter.notifyDataSetChanged();
-
         // Listeners //
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String todoItem = etItem.getText().toString();
-                // Add item to model
-                ((MainActivity) getActivity()).addToShoppingList(todoItem);
-                // Notify adaptor that an item is inserted
+                String customItem = etItem.getText().toString();
                 etItem.setText("");
-                Toast.makeText(getContext(), String.format("%s was added to the list", todoItem), Toast.LENGTH_SHORT).show();
-                patchList(((MainActivity) getActivity()).getShoppingList());
-                itemsAdapter.notifyItemInserted(itemsList.size() - 1);
+
+                Toast.makeText(getContext(), String.format("%s was added to the list", customItem), Toast.LENGTH_SHORT).show();
+                userViewModel.addCustomItemToShoppingList(customItem);
             }
         });
-    }
-
-    private void patchList(List<String> mainShoppingList) {
-        itemsList.clear();
-        itemsList.addAll(mainShoppingList);
     }
 }
