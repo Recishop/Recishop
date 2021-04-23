@@ -1,5 +1,7 @@
 package com.example.recishop.fragments;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,12 +22,11 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.recishop.models.Ingredient;
 import com.example.recishop.MainActivity;
 import com.example.recishop.R;
-import com.example.recishop.models.Recipe;
 import com.example.recishop.RecipesAdapter;
 import com.example.recishop.RecyclerViewListener;
+import com.example.recishop.models.Recipe;
 import com.example.recishop.models.UserViewModel;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -39,6 +40,7 @@ public class ProfileFragment extends Fragment {
 
     private static final String TAG = ProfileFragment.class.getSimpleName();
     private static final String WELCOME_MESSAGE = "Welcome back, ";
+    private static final String ADD_RECIPE_CONFIRMATION = "RecipeConfirmation";
 
     private UserViewModel userViewModel;
 
@@ -80,8 +82,22 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onItemClick(int position) {
                 Recipe recipe = recipeList.get(position);
-                userViewModel.addRecipeIngredientsToShoppingList(recipe);
-                Toast.makeText(getContext(), String.format("Added %s ingredients to list!", recipe.getName()), Toast.LENGTH_SHORT).show();
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setTitle(String.format("Add the ingredients for %s to the shopping list?", recipe.getName()));
+                builder.setPositiveButton("OK!", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        userViewModel.addRecipeIngredientsToShoppingList(recipe);
+                        Toast.makeText(getContext(), String.format("Added %s ingredients to list!", recipe.getName()), Toast.LENGTH_SHORT).show();
+                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {@Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Do nothing and dismiss the dialog
+
+                    }
+                });
+                builder.create().show();
             }
         });
         rvUserRecipes.setAdapter(recipesAdapter);
@@ -143,4 +159,5 @@ public class ProfileFragment extends Fragment {
         }
         return super.onOptionsItemSelected(item);
     }
+
 }
