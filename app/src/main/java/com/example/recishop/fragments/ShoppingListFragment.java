@@ -1,10 +1,15 @@
 package com.example.recishop.fragments;
 
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -118,5 +123,46 @@ public class ShoppingListFragment extends Fragment {
                 userViewModel.addCustomItemToShoppingList(customItem);
             }
         });
+    }
+
+    // Methods for Custom Action Bar //
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_shoppinglist_fragment, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_menuBtnClearShoppingList: {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setTitle("Are you sure you want to clear the entire shopping list?");
+                builder.setPositiveButton("Yes!", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        userViewModel.setShoppingList(new ArrayList<>());
+                        Toast.makeText(getContext(), "Shopping list was cleared", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {@Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Do nothing and dismiss the dialog
+
+                    }
+                });
+                builder.create().show();
+            }
+            case R.id.action_menuBtnNewRecipe: {
+                // Display filtering dialog fragment to select what to display
+
+            }
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
