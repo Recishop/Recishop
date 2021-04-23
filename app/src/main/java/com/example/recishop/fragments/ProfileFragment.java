@@ -19,11 +19,10 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.recishop.CreationActivity;
-import com.example.recishop.Ingredient;
+import com.example.recishop.models.Ingredient;
 import com.example.recishop.MainActivity;
 import com.example.recishop.R;
-import com.example.recishop.Recipe;
+import com.example.recishop.models.Recipe;
 import com.example.recishop.RecipesAdapter;
 import com.example.recishop.RecyclerViewListener;
 import com.parse.FindCallback;

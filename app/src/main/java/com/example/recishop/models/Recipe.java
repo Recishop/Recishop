@@ -1,4 +1,4 @@
-package com.example.recishop;
+package com.example.recishop.models;
 
 import com.parse.ParseClassName;
 import com.parse.ParseObject;

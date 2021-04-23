@@ -15,6 +15,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.recishop.models.Ingredient;
+import com.example.recishop.models.Recipe;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;

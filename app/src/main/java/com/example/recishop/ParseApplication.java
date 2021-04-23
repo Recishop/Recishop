@@ -2,6 +2,8 @@ package com.example.recishop;
 
 import android.app.Application;
 
+import com.example.recishop.models.Ingredient;
+import com.example.recishop.models.Recipe;
 import com.parse.Parse;
 import com.parse.ParseObject;
 

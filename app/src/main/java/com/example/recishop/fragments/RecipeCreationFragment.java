@@ -16,7 +16,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.recishop.CreationActivity;
 import com.example.recishop.R;
-import com.example.recishop.Recipe;
+import com.example.recishop.models.Recipe;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;

@@ -11,12 +11,15 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelStoreOwner;
 
 import com.example.recishop.fragments.MapFragment;
 import com.example.recishop.fragments.ProfileFragment;
 import com.example.recishop.fragments.RecipeCreationFragment;
 import com.example.recishop.fragments.ShoppingListFragment;
+import com.example.recishop.models.Ingredient;
+import com.example.recishop.models.UserViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.parse.ParseUser;
 
@@ -37,10 +40,15 @@ public class MainActivity extends AppCompatActivity {
     public static final String SHOPPING_LIST_FILE = "SHOPPING_LIST.txt";
     private List<String> shoppingList = new ArrayList<>();
 
+    // Create viewModel
+    public UserViewModel userViewModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
 
         // Navigation bar initialization
         bottomNavigationView = findViewById(R.id.bottomNavigation);
