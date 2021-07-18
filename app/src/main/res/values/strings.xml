@@ -4,8 +4,9 @@
     <string name="back4app_server_url">https://parseapi.back4app.com/</string>
     <string name="back4app_app_id">mG6RuHrxbV1X18D1fowIcbvKtYeakVE4LUlMcvEa</string>
     <string name="back4app_client_key">RWkiS2IBDFPAIl6P1WBOkZmDmqZQpCynK2vRdgRc</string>
+    <string name="recishop">Recishop</string>
 
-<!--    TODO: Remove the app ID and the client key from plain text.  Use a property file or something  -->
+    <!--    TODO: Remove the app ID and the client key from plain text.  Use a property file or something  -->
 
     <!--  Other Strings  -->
 </resources>

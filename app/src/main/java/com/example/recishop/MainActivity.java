@@ -46,9 +46,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ParseUser currentUser = ParseUser.getCurrentUser();
-        currentUser.logOut();
-
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
         userViewModel.getShoppingList().observe(this, new Observer<List<String>>() {
             @Override
