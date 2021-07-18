@@ -13,15 +13,13 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelStoreOwner;
 
-import com.example.recishop.fragments.MapFragment;
 import com.example.recishop.fragments.ProfileFragment;
 import com.example.recishop.fragments.RecipeCreationFragment;
 import com.example.recishop.fragments.ShoppingListFragment;
-import com.example.recishop.models.Ingredient;
 import com.example.recishop.models.UserViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.parse.ParseObject;
 import com.parse.ParseUser;
 
 import java.io.BufferedReader;
@@ -34,8 +32,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-
     private static final String TAG = MainActivity.class.getSimpleName();
+
     final FragmentManager fragmentManager = getSupportFragmentManager();
     BottomNavigationView bottomNavigationView;
     public static final String SHOPPING_LIST_FILE = "SHOPPING_LIST.txt";
@@ -47,6 +45,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        ParseUser currentUser = ParseUser.getCurrentUser();
+        currentUser.logOut();
 
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
         userViewModel.getShoppingList().observe(this, new Observer<List<String>>() {
@@ -64,9 +65,6 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 Fragment fragment;
                 switch (item.getItemId()) {
-                    case R.id.action_map:
-                        fragment = new MapFragment();
-                        break;
                     case R.id.action_profile:
                         fragment = new ProfileFragment();
                         break;

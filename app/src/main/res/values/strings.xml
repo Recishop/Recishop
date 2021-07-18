@@ -1,6 +1,11 @@
 <resources>
+    <!--  Manifest Strings  -->
     <string name="app_name">Recishop</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="google_maps_api_key">AIzaSyCeTlJWBfvW0WIp1gRcX0lJLSCUBBYcHXs</string>
+    <string name="back4app_server_url">https://parseapi.back4app.com/</string>
+    <string name="back4app_app_id">mG6RuHrxbV1X18D1fowIcbvKtYeakVE4LUlMcvEa</string>
+    <string name="back4app_client_key">RWkiS2IBDFPAIl6P1WBOkZmDmqZQpCynK2vRdgRc</string>
+
+<!--    TODO: Remove the app ID and the client key from plain text.  Use a property file or something  -->
+
+    <!--  Other Strings  -->
 </resources>
