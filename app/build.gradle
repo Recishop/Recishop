@@ -51,7 +51,8 @@ dependencies {
     implementation 'commons-io:commons-io:2.6'
 
     // Parse Android SDK
-    implementation 'com.github.parse-community.Parse-SDK-Android:parse:1.18.5'
+    def parseSdkVersion = "1.18.5"
+    implementation "com.github.parse-community.Parse-SDK-Android:parse:$parseSdkVersion"
 
     implementation 'org.parceler:parceler-api:1.1.12'
     annotationProcessor 'org.parceler:parceler:1.1.12'
@@ -65,4 +66,14 @@ dependencies {
     // View model dependencies
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     implementation "androidx.lifecycle:lifecycle-viewmodel:2.2.0"
+
+    // Nav Controller dependencies
+    def navVersion = "2.3.5"
+    implementation "androidx.navigation:navigation-fragment:$navVersion"
+    implementation "androidx.navigation:navigation-ui:$navVersion"
+    implementation "androidx.navigation:navigation-dynamic-features-fragment:$navVersion"
+    androidTestImplementation "androidx.navigation:navigation-testing:$navVersion"
+    implementation "androidx.navigation:navigation-compose:2.4.0-alpha04"
+
+
 }
