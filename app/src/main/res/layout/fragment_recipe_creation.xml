@@ -1,29 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="16dp"
-    android:orientation="vertical"
-    tools:context=".fragments.RecipeCreationFragment">
+<layout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools">
+    <data>
 
-    <!-- TODO: Update blank fragment layout -->
+    </data>
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:orientation="vertical"
+            tools:context=".fragments.RecipeCreationFragment">
 
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="cursive"
+                android:text="@string/create_a_recipe"
+                android:textStyle="bold"
+                android:textAllCaps="false"
+                android:textAlignment="center"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display3"
+                android:paddingBottom="10dp"/>
 
-    <EditText
-        android:id="@+id/etRecipeName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:ems="10"
-        android:hint="Recipe Name..."
-        android:inputType="textPersonName" />
+        <EditText
+                android:id="@+id/etRecipeName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Recipe Name..."
+                android:inputType="textPersonName"/>
 
-    <Button
-        android:id="@+id/btnStartCreate"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="Get cooking" />
-</LinearLayout>
+        <Button
+                android:id="@+id/btnStartCreate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Get cooking"/>
+    </LinearLayout>
+</layout>

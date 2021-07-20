@@ -12,63 +12,87 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
 import com.example.recishop.CreationActivity;
 import com.example.recishop.R;
+import com.example.recishop.databinding.FragmentRecipeCreationBindingImpl;
 import com.example.recishop.models.Recipe;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 /**
- * A simple {@link Fragment} subclass.
- * Use the  factory method to
- * create an instance of this fragment.
+ * The entry point to making recipe.  Here, we will simply take a recipe name and will
+ * build an AlertDialog that allows the user to input the required materials for their recipe.
+ *
+ * @author tallt
  */
+public class RecipeCreationFragment extends Fragment implements RecipeCreationDialog.RecipeDialogInterfaceListeners  {
+    private static final String TAG = RecipeCreationFragment.class.getSimpleName();
+    private static final String RECIPE_CREATION_TAG = RecipeCreationDialog.class.getSimpleName();
 
-public class RecipeCreationFragment extends Fragment {
+    /**
+     * Handle to UI bindings for Recipe Creation Fragment screen
+     */
+    FragmentRecipeCreationBindingImpl fragmentRecipeCreationBinding;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String TAG = "RecipeCreationFragment";
-    private EditText etRecipeName;
-    private Button btnStartCreate;
+    /**
+     * Dialog for inputting recipe materials.
+     */
+    RecipeCreationDialog recipeCreationDialog;
+
+    /**
+     * Request code for the RecipeCreationDialog AlertDialog
+     */
+    private static final int RECIPE_CREATION_REQUEST_CODE = 100;
 
 
     public RecipeCreationFragment() {
         // Required empty public constructor
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_recipe_creation, container, false);
+        fragmentRecipeCreationBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_recipe_creation, container, false);
+        fragmentRecipeCreationBinding.setLifecycleOwner(this);
+
+        return fragmentRecipeCreationBinding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        etRecipeName = view.findViewById(R.id.etRecipeName);
-        btnStartCreate = view.findViewById(R.id.btnStartCreate);
 
-        btnStartCreate.setOnClickListener(new View.OnClickListener() {
+        fragmentRecipeCreationBinding.btnStartCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String recipeName = etRecipeName.getText().toString();
+                String recipeName = fragmentRecipeCreationBinding.etRecipeName.getText().toString();
                 if(recipeName.isEmpty()){
-                    Toast.makeText(getContext(), "Name cannot be empty", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "First, give your recipe a name", Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    ParseUser currentUser = ParseUser.getCurrentUser();
-                    saveRecipe(recipeName, currentUser);}
+//                    ParseUser currentUser = ParseUser.getCurrentUser();
+//                    saveRecipe(recipeName, currentUser);
+                    recipeCreationDialog = new RecipeCreationDialog();
+                    recipeCreationDialog.setTargetFragment(RecipeCreationFragment.this, RECIPE_CREATION_REQUEST_CODE);
+                    recipeCreationDialog.show(getParentFragmentManager(), RECIPE_CREATION_TAG);
+                }
             }
         });
     }
 
-
+    /**
+     * Dialog interface methods from RecipeCreationDialog.  This method is called
+     * on the Positive Action button from the AlertDialog
+     */
+    @Override
+    public void finishRecipe() {
+        // TODO: Make recipe and add it to the database from here.
+        Toast.makeText(getContext(), "Finish recipe call back called!", Toast.LENGTH_SHORT).show();
+    }
 
     private void saveRecipe(String recipeName, ParseUser currentUser) {
         Recipe recipe = new Recipe();
@@ -82,26 +106,11 @@ public class RecipeCreationFragment extends Fragment {
                     Toast.makeText(getContext(), "Error while saving", Toast.LENGTH_SHORT).show();
                 }
                 Log.i(TAG, "Recipe start was successful");
-                etRecipeName.setText("");
+                fragmentRecipeCreationBinding.etRecipeName.setText("");
                 Intent i = new Intent(getContext(), CreationActivity.class);
                 i.putExtra("recipe", recipe);
                 startActivity(i);
-                //goCreationActivity(recipe);
-                //goCreationActivity();
             }
         });
     }
-
-
-    /*private void goCreationActivity() {
-        Intent i = new Intent(getContext(), CreationActivity.class);
-        //i.putExtra("recipe", Parcels.wrap(recipe));
-        startActivity(i);
-    }
-
-    private void goCreationActivity(ParseObject recipe) {
-        Intent i = new Intent(getContext(), CreationActivity.class);
-        i.putExtra("recipe", Parcels.wrap(recipe));
-        startActivity(i);
-    }*/
 }
