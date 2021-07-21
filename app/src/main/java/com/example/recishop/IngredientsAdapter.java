@@ -7,15 +7,30 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.recishop.databinding.ItemIngredientBinding;
+import com.example.recishop.databinding.ItemIngredientBindingImpl;
 import com.example.recishop.models.Ingredient;
 
 import java.util.List;
 
+/**
+ * Adapter for handling a list of ingredients to display in a Recyclerview
+ *
+ * @author tallt
+ */
 public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsAdapter.ViewHolder>{
 
+    /**
+     * Context used by the adapter
+     */
     private Context context;
+
+    /**
+     * List of ingredients to map to RecyclerView
+     */
     private List<Ingredient> ingredients;
 
     public IngredientsAdapter(Context context, List<Ingredient> ingredients){
@@ -43,26 +58,23 @@ public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsAdapter.
         return ingredients.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder{
+    class ViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView tvQty;
-        private TextView tvIngrName;
-        private TextView tvMeas;
-        private TextView tvCategory;
+        /**
+         * UI Handle to item_ingredient for Ingredient RecyclerView
+         */
+        private ItemIngredientBindingImpl itemIngredientBinding;
 
-        public ViewHolder(@NonNull View itemView){
+        public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            tvQty = itemView.findViewById(R.id.tvQty);
-            tvMeas = itemView.findViewById(R.id.tvMeas);
-            tvIngrName = itemView.findViewById(R.id.tvIngrName);
-            tvCategory = itemView.findViewById(R.id.tvCategory);
+            this.itemIngredientBinding = DataBindingUtil.findBinding(itemView);
         }
 
         public void bind(Ingredient ingredient){
-            tvQty.setText(Double.toString(ingredient.getQuantity()));
-            tvMeas.setText(ingredient.getMeasurement());
-            tvIngrName.setText(ingredient.getItem());
-            tvCategory.setText(ingredient.getCategory());
+//            itemIngredientBinding.tvQuantity.setText(Double.toString(ingredient.getQuantity()));
+//            itemIngredientBinding.tvMeasurement.setText(ingredient.getMeasurement());
+//            itemIngredientBinding.tvIngredientName.setText(ingredient.getItem());
+//            itemIngredientBinding.tvCategory.setText(ingredient.getCategory());
         }
     }
 }

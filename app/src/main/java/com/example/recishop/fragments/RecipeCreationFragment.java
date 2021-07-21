@@ -6,8 +6,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -15,7 +13,6 @@ import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
-import com.example.recishop.CreationActivity;
 import com.example.recishop.R;
 import com.example.recishop.databinding.FragmentRecipeCreationBindingImpl;
 import com.example.recishop.models.Recipe;
@@ -77,6 +74,7 @@ public class RecipeCreationFragment extends Fragment implements RecipeCreationDi
 //                    ParseUser currentUser = ParseUser.getCurrentUser();
 //                    saveRecipe(recipeName, currentUser);
                     recipeCreationDialog = new RecipeCreationDialog();
+                    recipeCreationDialog.setRecipeName(recipeName);
                     recipeCreationDialog.setTargetFragment(RecipeCreationFragment.this, RECIPE_CREATION_REQUEST_CODE);
                     recipeCreationDialog.show(getParentFragmentManager(), RECIPE_CREATION_TAG);
                 }
@@ -94,23 +92,23 @@ public class RecipeCreationFragment extends Fragment implements RecipeCreationDi
         Toast.makeText(getContext(), "Finish recipe call back called!", Toast.LENGTH_SHORT).show();
     }
 
-    private void saveRecipe(String recipeName, ParseUser currentUser) {
-        Recipe recipe = new Recipe();
-        recipe.setName(recipeName);
-        recipe.setChef(currentUser);
-        recipe.saveInBackground(new SaveCallback() {
-            @Override
-            public void done(ParseException e) {
-                if (e!=null){
-                    Log.e(TAG, "Error while saving", e);
-                    Toast.makeText(getContext(), "Error while saving", Toast.LENGTH_SHORT).show();
-                }
-                Log.i(TAG, "Recipe start was successful");
-                fragmentRecipeCreationBinding.etRecipeName.setText("");
-                Intent i = new Intent(getContext(), CreationActivity.class);
-                i.putExtra("recipe", recipe);
-                startActivity(i);
-            }
-        });
-    }
+//    private void saveRecipe(String recipeName, ParseUser currentUser) {
+//        Recipe recipe = new Recipe();
+//        recipe.setName(recipeName);
+//        recipe.setChef(currentUser);
+//        recipe.saveInBackground(new SaveCallback() {
+//            @Override
+//            public void done(ParseException e) {
+//                if (e!=null){
+//                    Log.e(TAG, "Error while saving", e);
+//                    Toast.makeText(getContext(), "Error while saving", Toast.LENGTH_SHORT).show();
+//                }
+//                Log.i(TAG, "Recipe start was successful");
+//                fragmentRecipeCreationBinding.etRecipeName.setText("");
+//                Intent i = new Intent(getContext(), NewRecipeForm.class);
+//                i.putExtra("recipe", recipe);
+//                startActivity(i);
+//            }
+//        });
+//    }
 }

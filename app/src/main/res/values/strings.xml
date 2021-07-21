@@ -10,4 +10,18 @@
     <!--    TODO: Remove the app ID and the client key from plain text.  Use a property file or something  -->
 
     <!--  Other Strings  -->
+    <string-array name="Ingredient_Measurements">
+        <item>Units</item>
+        <item>lbs</item>
+        <item>Oz</item>
+        <item>Cups</item>
+        <item>Tbsp</item>
+        <item>Tsp</item>
+    </string-array>
+
+    <string-array name="Ingredients_Category">
+        <item>Other</item>
+        <item>Produce</item>
+        <item>Refridgerated/Frozen</item>
+    </string-array>
 </resources>

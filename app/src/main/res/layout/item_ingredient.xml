@@ -1,50 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent" android:layout_height="wrap_content">
+<layout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools">
+    <data>
 
-    <TextView
-        android:id="@+id/tvQty"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
-        tools:text="5" />
+    </data>
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/tvMeas"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
-        android:layout_toEndOf="@+id/tvQty"
-        tools:text="cups" />
+        <TextView
+                android:id="@+id/tvQuantity"
+                android:layout_width="0dp"
+                android:layout_weight="0.5"
+                android:layout_height="wrap_content"
+                tools:text="5"/>
 
-    <TextView
-        android:id="@+id/tvIngrName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
-        android:layout_toEndOf="@+id/tvMeas"
-        tools:text="sugar" />
+        <TextView
+                android:id="@+id/tvMeasurement"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                tools:text="Cups"/>
 
-    <TextView
-        android:id="@+id/tvCategory"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="5dp"
-        android:layout_marginBottom="5dp"
-        tools:text="Produce" />
+        <TextView
+                android:id="@+id/tvIngredientName"
+                android:layout_width="0dp"
+                android:layout_weight="3"
+                android:layout_height="wrap_content"
+                tools:text="Sugar"/>
 
-</RelativeLayout>
+        <TextView
+                android:id="@+id/tvCategory"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                tools:text="Produce"/>
+
+    </LinearLayout>
+</layout>
