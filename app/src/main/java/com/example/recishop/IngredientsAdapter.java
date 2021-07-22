@@ -2,17 +2,13 @@ package com.example.recishop;
 
 import android.content.Context;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.recishop.databinding.ItemIngredientBinding;
-import com.example.recishop.databinding.ItemIngredientBindingImpl;
-import com.example.recishop.models.Ingredient;
+import com.example.recishop.models.RecishopIngredient;
 
 import java.util.List;
 
@@ -21,7 +17,7 @@ import java.util.List;
  *
  * @author tallt
  */
-public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsAdapter.ViewHolder>{
+public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsAdapter.ShoppingListViewHolder>{
 
     /**
      * Context used by the adapter
@@ -31,50 +27,52 @@ public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsAdapter.
     /**
      * List of ingredients to map to RecyclerView
      */
-    private List<Ingredient> ingredients;
+    private List<RecishopIngredient> recishopIngredientList;
 
-    public IngredientsAdapter(Context context, List<Ingredient> ingredients){
+    public IngredientsAdapter(Context context, List<RecishopIngredient> recishopIngredientList){
         this.context = context;
-        this.ingredients = ingredients;
+        this.recishopIngredientList = recishopIngredientList;
     }
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ShoppingListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
-
-        View view = inflater.inflate(R.layout.item_ingredient, parent, false);
-        return new ViewHolder(view);
+        ItemIngredientBinding binding = ItemIngredientBinding.inflate(inflater, parent, false);
+        return new ShoppingListViewHolder(binding);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Ingredient ingredient = ingredients.get(position);
-        holder.bind(ingredient);
+    public void onBindViewHolder(@NonNull ShoppingListViewHolder holder, int position) {
+        RecishopIngredient recishopIngredient = recishopIngredientList.get(position);
+        holder.bind(recishopIngredient);
     }
 
     @Override
     public int getItemCount() {
-        return ingredients.size();
+        return recishopIngredientList.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    public class ShoppingListViewHolder extends RecyclerView.ViewHolder {
 
         /**
-         * UI Handle to item_ingredient for Ingredient RecyclerView
+         * UI Handle to item_ingredient for ParseIngredient RecyclerView
          */
-        private ItemIngredientBindingImpl itemIngredientBinding;
+        private final ItemIngredientBinding itemIngredientBinding;
 
-        public ViewHolder(@NonNull View itemView) {
-            super(itemView);
-            this.itemIngredientBinding = DataBindingUtil.findBinding(itemView);
+        public ShoppingListViewHolder(ItemIngredientBinding itemIngredientBinding) {
+            super(itemIngredientBinding.getRoot());
+            this.itemIngredientBinding = itemIngredientBinding;
         }
 
-        public void bind(Ingredient ingredient){
-//            itemIngredientBinding.tvQuantity.setText(Double.toString(ingredient.getQuantity()));
-//            itemIngredientBinding.tvMeasurement.setText(ingredient.getMeasurement());
-//            itemIngredientBinding.tvIngredientName.setText(ingredient.getItem());
-//            itemIngredientBinding.tvCategory.setText(ingredient.getCategory());
+
+        public void bind(RecishopIngredient recishopIngredient){
+//            itemIngredientBinding.tvQuantity.setText(Double.toString(recishopIngredient.getQuantity()));
+//            itemIngredientBinding.tvMeasurement.setText(recishopIngredient.getIngredientMeasurement().label);
+//            itemIngredientBinding.tvIngredientName.setText(recishopIngredient.getIngredientName());
+//            itemIngredientBinding.tvCategory.setText(recishopIngredient.getItemCategory().label);\
+            itemIngredientBinding.setRecishopIngredient(recishopIngredient);
+            itemIngredientBinding.executePendingBindings();
         }
     }
 }

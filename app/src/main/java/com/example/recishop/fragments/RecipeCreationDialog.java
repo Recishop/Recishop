@@ -18,7 +18,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.example.recishop.IngredientsAdapter;
 import com.example.recishop.R;
 import com.example.recishop.databinding.NewRecipeFormBindingImpl;
-import com.example.recishop.models.Ingredient;
+import com.example.recishop.models.IngredientMeasurement;
+import com.example.recishop.models.ItemCategory;
+import com.example.recishop.models.ParseIngredient;
+import com.example.recishop.models.RecishopIngredient;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,7 +59,7 @@ public class RecipeCreationDialog extends DialogFragment implements View.OnClick
      * We will add all new ingredients from this list to the database upon each
      * newly created recipe
      */
-    private List<Ingredient> allIngredients;
+    private List<RecishopIngredient> allIngredients;
 
     // TODO: Might not need the interface if I just wind up implementing all of the functionality in the Dialog.
     /**
@@ -113,21 +116,21 @@ public class RecipeCreationDialog extends DialogFragment implements View.OnClick
         // Click Listeners
         newRecipeFormBinding.btnAddIngredient.setOnClickListener(this);
 
-        // Ingredient Measurement Spinner
-        ArrayAdapter<CharSequence> spinIngredientMeasurementAdapter = ArrayAdapter.createFromResource(getContext(), R.array.Ingredient_Measurements, android.R.layout.simple_spinner_item);
+        // ParseIngredient Measurement Spinner
+        ArrayAdapter<IngredientMeasurement> spinIngredientMeasurementAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, IngredientMeasurement.values());
         spinIngredientMeasurementAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         newRecipeFormBinding.spinMeasurement.setAdapter(spinIngredientMeasurementAdapter);
         newRecipeFormBinding.spinMeasurement.setSelection(0);
         newRecipeFormBinding.spinMeasurement.setOnItemSelectedListener(this);
 
-        // Ingredient Category Spinner
-        ArrayAdapter<CharSequence> spinIngredientCategoryAdapter = ArrayAdapter.createFromResource(getContext(), R.array.Ingredients_Category, android.R.layout.simple_spinner_item);
+        // ParseIngredient Category Spinner
+        ArrayAdapter<ItemCategory> spinIngredientCategoryAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, ItemCategory.values());
         spinIngredientCategoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         newRecipeFormBinding.spinCategory.setAdapter(spinIngredientCategoryAdapter);
         newRecipeFormBinding.spinCategory.setSelection(0);
         newRecipeFormBinding.spinCategory.setOnItemSelectedListener(this);
 
-        // Ingredient RecyclerView
+        // ParseIngredient RecyclerView
         allIngredients = new ArrayList<>();
         adapter = new IngredientsAdapter(getContext(), allIngredients);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
@@ -152,6 +155,20 @@ public class RecipeCreationDialog extends DialogFragment implements View.OnClick
             Toast.makeText(getContext(), "Name and quantity fields cannot be empty!", Toast.LENGTH_SHORT).show();
             return;
         }
+
+        String recipeName = newRecipeFormBinding.etIngrName.getText().toString();
+        Double quantity = Double.valueOf(newRecipeFormBinding.etQuantity.getText().toString());
+        IngredientMeasurement ingredientMeasurement = (IngredientMeasurement) newRecipeFormBinding.spinMeasurement.getAdapter().getItem(newRecipeFormBinding.spinMeasurement.getSelectedItemPosition());
+        ItemCategory itemCategory = (ItemCategory) newRecipeFormBinding.spinCategory.getAdapter().getItem(newRecipeFormBinding.spinCategory.getSelectedItemPosition());
+
+        RecishopIngredient recishopIngredient = new RecishopIngredient(recipeName, quantity, ingredientMeasurement, itemCategory);
+
+        allIngredients.add(recishopIngredient);
+        adapter.notifyDataSetChanged();
+
+        newRecipeFormBinding.etIngrName.setText("");
+        newRecipeFormBinding.etQuantity.setText("");
+        newRecipeFormBinding.etIngrName.requestFocus();
     }
 
     @Override

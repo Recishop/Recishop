@@ -44,7 +44,7 @@ public class UserViewModel extends ViewModel {
     }
 
     public void addRecipeIngredientsToShoppingList(Recipe recipe) {
-        getIngredientsFromRecipe(recipe);
+//        getIngredientsFromRecipe(recipe);
     }
 
     public void addCustomItemToShoppingList(String item) {
@@ -53,31 +53,31 @@ public class UserViewModel extends ViewModel {
         shoppingList.setValue(temp);
     }
 
-    private void getIngredientsFromRecipe(Recipe recipe) {
-        Log.i(TAG, String.format("UserViewModel) Fetching ingredients from recipe [%s]", recipe.getName()));
-        ParseQuery<Ingredient> ingredientParseQuery = ParseQuery.getQuery(Ingredient.class);
-
-        // Filter for only ingredients associated with the given recipe
-        ingredientParseQuery.include(Ingredient.KEY_RECIPE);
-        ingredientParseQuery.whereEqualTo(Ingredient.KEY_RECIPE, recipe);
-
-        ingredientParseQuery.findInBackground(new FindCallback<Ingredient>() {
-            @Override
-            public void done(List<Ingredient> objects, ParseException e) {
-                if (e == null) {
-                    Log.i(TAG, String.format("Successfully pulled ingredients for [%s]", recipe.getName()));
-                    List<String> temp = (shoppingList.getValue() == null) ? new ArrayList<>() : shoppingList.getValue();
-                    for (int i = 0; i < objects.size(); i++) {
-                        temp.add(objects.get(i).getItem());
-                    }
-                    shoppingList.setValue(temp);
-                } else {
-                    Log.d(TAG, String.format("Error fetching ingredients for [%s]", recipe.getName()) + e);
-                    return;
-                }
-            }
-        });
-    }
+//    private void getIngredientsFromRecipe(Recipe recipe) {
+//        Log.i(TAG, String.format("UserViewModel) Fetching ingredients from recipe [%s]", recipe.getName()));
+//        ParseQuery<ParseIngredient> ingredientParseQuery = ParseQuery.getQuery(ParseIngredient.class);
+//
+//        // Filter for only ingredients associated with the given recipe
+//        ingredientParseQuery.include(ParseIngredient.KEY_RECIPE);
+//        ingredientParseQuery.whereEqualTo(ParseIngredient.KEY_RECIPE, recipe);
+//
+//        ingredientParseQuery.findInBackground(new FindCallback<ParseIngredient>() {
+//            @Override
+//            public void done(List<ParseIngredient> objects, ParseException e) {
+//                if (e == null) {
+//                    Log.i(TAG, String.format("Successfully pulled ingredients for [%s]", recipe.getName()));
+//                    List<String> temp = (shoppingList.getValue() == null) ? new ArrayList<>() : shoppingList.getValue();
+//                    for (int i = 0; i < objects.size(); i++) {
+//                        temp.add(objects.get(i).getItem());
+//                    }
+//                    shoppingList.setValue(temp);
+//                } else {
+//                    Log.d(TAG, String.format("Error fetching ingredients for [%s]", recipe.getName()) + e);
+//                    return;
+//                }
+//            }
+//        });
+//    }
 
     public void removeItemFromShoppingList(int position) {
         if (shoppingList.getValue() == null) {
