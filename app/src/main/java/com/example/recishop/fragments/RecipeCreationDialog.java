@@ -61,12 +61,11 @@ public class RecipeCreationDialog extends DialogFragment implements View.OnClick
      */
     private List<RecishopIngredient> allIngredients;
 
-    // TODO: Might not need the interface if I just wind up implementing all of the functionality in the Dialog.
     /**
      * This interface is implemented by the RecipeCreationFragment.
      */
     public interface RecipeDialogInterfaceListeners {
-        public void finishRecipe();
+        public void finishRecipe(List<RecishopIngredient> recipeList);
     }
 
     private RecipeDialogInterfaceListeners callback;
@@ -96,7 +95,7 @@ public class RecipeCreationDialog extends DialogFragment implements View.OnClick
                 .setPositiveButton("Finish", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        callback.finishRecipe();
+                        callback.finishRecipe(allIngredients);
                     }
                 })
                 .setNegativeButton("Quit", new DialogInterface.OnClickListener() {
@@ -175,13 +174,15 @@ public class RecipeCreationDialog extends DialogFragment implements View.OnClick
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        // Currently don't have to do anything - All we want to do is scrape the current enum from it
+        // at the time the user presses the "Finish" button
+
         switch (parent.getId()) {
             case R.id.spinMeasurement:
                 break;
             case R.id.spinCategory:
                 break;
         }
-
     }
 
     @Override

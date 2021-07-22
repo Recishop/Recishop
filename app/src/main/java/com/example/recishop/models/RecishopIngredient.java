@@ -1,5 +1,7 @@
 package com.example.recishop.models;
 
+import androidx.annotation.NonNull;
+
 /**
  * Recishop ingredients are ingredient objects that contain meta data about
  * ParseIngredients
@@ -70,5 +72,13 @@ public class RecishopIngredient {
 
     public void setItemCategory(ItemCategory itemCategory) {
         this.itemCategory = itemCategory;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return "RecishopIngredient [IngredientName=" + this.ingredientName + ", Quantity=" +
+                this.quantity + ", Measurement=" + this.ingredientMeasurement + ", Category=" +
+                this.itemCategory + "]";
     }
 }

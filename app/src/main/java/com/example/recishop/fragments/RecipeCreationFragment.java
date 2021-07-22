@@ -15,10 +15,15 @@ import androidx.fragment.app.Fragment;
 
 import com.example.recishop.R;
 import com.example.recishop.databinding.FragmentRecipeCreationBindingImpl;
-import com.example.recishop.models.Recipe;
+import com.example.recishop.models.ParseRecipe;
+import com.example.recishop.models.RecishopIngredient;
+import com.google.gson.Gson;
 import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
+
+import java.util.List;
 
 /**
  * The entry point to making recipe.  Here, we will simply take a recipe name and will
@@ -71,8 +76,6 @@ public class RecipeCreationFragment extends Fragment implements RecipeCreationDi
                     Toast.makeText(getContext(), "First, give your recipe a name", Toast.LENGTH_SHORT).show();
                 }
                 else{
-//                    ParseUser currentUser = ParseUser.getCurrentUser();
-//                    saveRecipe(recipeName, currentUser);
                     recipeCreationDialog = new RecipeCreationDialog();
                     recipeCreationDialog.setRecipeName(recipeName);
                     recipeCreationDialog.setTargetFragment(RecipeCreationFragment.this, RECIPE_CREATION_REQUEST_CODE);
@@ -84,31 +87,35 @@ public class RecipeCreationFragment extends Fragment implements RecipeCreationDi
 
     /**
      * Dialog interface methods from RecipeCreationDialog.  This method is called
-     * on the Positive Action button from the AlertDialog
+     * on the Positive Action button from the AlertDialog.
+     *
+     * Creates ParseObject to push to the database out of the ingredients list and
+     * recipe name
      */
     @Override
-    public void finishRecipe() {
+    public void finishRecipe(List<RecishopIngredient> recishopIngredientList) {
         // TODO: Make recipe and add it to the database from here.
         Toast.makeText(getContext(), "Finish recipe call back called!", Toast.LENGTH_SHORT).show();
-    }
 
-//    private void saveRecipe(String recipeName, ParseUser currentUser) {
-//        Recipe recipe = new Recipe();
-//        recipe.setName(recipeName);
-//        recipe.setChef(currentUser);
-//        recipe.saveInBackground(new SaveCallback() {
-//            @Override
-//            public void done(ParseException e) {
-//                if (e!=null){
-//                    Log.e(TAG, "Error while saving", e);
-//                    Toast.makeText(getContext(), "Error while saving", Toast.LENGTH_SHORT).show();
-//                }
-//                Log.i(TAG, "Recipe start was successful");
-//                fragmentRecipeCreationBinding.etRecipeName.setText("");
-//                Intent i = new Intent(getContext(), NewRecipeForm.class);
-//                i.putExtra("recipe", recipe);
-//                startActivity(i);
-//            }
-//        });
-//    }
+        String recipeJson = new Gson().toJson(recishopIngredientList, recishopIngredientList.getClass());
+
+        ParseObject parseRecipe = ParseObject.create("ParseRecipe");
+        parseRecipe.put(ParseRecipe.KEY_RECIPE_NAME, fragmentRecipeCreationBinding.etRecipeName.getText().toString());
+        parseRecipe.put(ParseRecipe.KEY_RECIPE_INGREDIENTS, recipeJson);
+        parseRecipe.put(ParseRecipe.KEY_RECIPE_OWNER, ParseUser.getCurrentUser());
+
+        parseRecipe.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e != null) {
+                    Log.e(TAG, "Error while saving parseRecipe: " + e.getMessage());
+                    Toast.makeText(getContext(), "Error saving recipe.", Toast.LENGTH_SHORT).show();
+                    return;
+                } else {
+                    Log.d(TAG, "Saving recipe was successful");
+                    fragmentRecipeCreationBinding.etRecipeName.setText("");
+                }
+            }
+        });
+    }
 }
