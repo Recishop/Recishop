@@ -169,6 +169,8 @@ public class RecipeCreationDialog extends DialogFragment implements View.OnClick
         newRecipeFormBinding.etIngrName.setText("");
         newRecipeFormBinding.etQuantity.setText("");
         newRecipeFormBinding.etIngrName.requestFocus();
+        newRecipeFormBinding.spinMeasurement.setSelection(0);
+        newRecipeFormBinding.spinCategory.setSelection(0);
     }
 
     @Override

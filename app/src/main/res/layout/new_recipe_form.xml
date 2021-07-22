@@ -55,7 +55,7 @@
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:hint="Qty"
-                    android:inputType="number"
+                    android:inputType="numberDecimal"
                     tools:text="Qty"/>
         </LinearLayout>
 
