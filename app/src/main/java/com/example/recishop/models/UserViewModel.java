@@ -21,21 +21,31 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * UserViewModel contains all model-related information and is preserved
+ * across UI/Fragment changes.
+ *
+ * @author tallt
+ */
 public class UserViewModel extends ViewModel {
-
     private static final String TAG = UserViewModel.class.getSimpleName();
 
-    // All user-based data goes here
-    private MutableLiveData<List<String>> shoppingList;
+    /**
+     * The shopping list that contains everything the user wants to
+     * put on their shopping list.  Can be populated via recipes and manually
+     */
+    private MutableLiveData<List<String>> shoppingList = new MutableLiveData<>();
+
+    /**
+     * List of known ingredients to the user.  Load this list upon user login
+     */
+    private List<String> knownIngredients = new ArrayList<>();
 
     public UserViewModel() {
-        shoppingList = new MutableLiveData<>();
+        // Could consider doing database work here.  Would need to pass in data then?
     }
 
     public LiveData<List<String>> getShoppingList() {
-        if (shoppingList == null) {
-            shoppingList = new MutableLiveData<List<String>>();
-        }
         return shoppingList;
     }
 
@@ -88,5 +98,13 @@ public class UserViewModel extends ViewModel {
             temp.remove(position);
             shoppingList.setValue(temp);
         }
+    }
+
+    public List<String> getKnownIngredients() {
+        return knownIngredients;
+    }
+
+    public void setKnownIngredients(List<String> knownIngredients) {
+        this.knownIngredients = knownIngredients;
     }
 }

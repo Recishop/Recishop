@@ -13,10 +13,13 @@ import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
+import androidx.lifecycle.ViewModelProvider;
 import com.example.recishop.R;
 import com.example.recishop.databinding.FragmentRecipeCreationBindingImpl;
+import com.example.recishop.models.ParseIngredient;
 import com.example.recishop.models.ParseRecipe;
 import com.example.recishop.models.RecishopIngredient;
+import com.example.recishop.models.UserViewModel;
 import com.google.gson.Gson;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -46,6 +49,11 @@ public class RecipeCreationFragment extends Fragment implements RecipeCreationDi
     RecipeCreationDialog recipeCreationDialog;
 
     /**
+     * UserViewModel contains information about the user required across fragments
+     */
+    UserViewModel userViewModel;
+
+    /**
      * Request code for the RecipeCreationDialog AlertDialog
      */
     private static final int RECIPE_CREATION_REQUEST_CODE = 100;
@@ -60,6 +68,8 @@ public class RecipeCreationFragment extends Fragment implements RecipeCreationDi
                              Bundle savedInstanceState) {
         fragmentRecipeCreationBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_recipe_creation, container, false);
         fragmentRecipeCreationBinding.setLifecycleOwner(this);
+
+        userViewModel = new ViewModelProvider(requireActivity()).get(UserViewModel.class);
 
         return fragmentRecipeCreationBinding.getRoot();
     }
@@ -117,5 +127,25 @@ public class RecipeCreationFragment extends Fragment implements RecipeCreationDi
                 }
             }
         });
+
+        // Save unknown ingredients to database
+        for (RecishopIngredient recishopIngredient : recishopIngredientList) {
+            if (!userViewModel.getKnownIngredients().contains(recishopIngredient.getIngredientName())) {
+                ParseObject parseIngredient = ParseObject.create("ParseIngredient");
+                parseIngredient.put(ParseIngredient.KEY_INGREDIENT_NAME, recishopIngredient.getIngredientName());
+                parseIngredient.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if (e != null) {
+                            Log.e(TAG, "Could not save ingredient to database: " + recishopIngredient.getIngredientName() + " | " + e.getMessage());
+                            Toast.makeText(getContext(), "Error saving one or more ingredients", Toast.LENGTH_SHORT);
+                            return;
+                        } else {
+                            Log.d(TAG, "Successfully saved ingredient: " + recishopIngredient.getIngredientName());
+                        }
+                    }
+                });
+            }
+        }
     }
 }
